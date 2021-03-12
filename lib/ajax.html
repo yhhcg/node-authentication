@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax</title>
+</head>
+<body>
+  
+</body>
+<script>
+  var oReq = new XMLHttpRequest();
+  oReq.onload = function(res) {
+    console.log(res);
+  }
+  oReq.onerror = function(err) {
+    console.log('err');
+    console.log(err);
+  }
+  oReq.open("post", "http://localhost:3000/overview/tradeMarketShare", true);
+  oReq.send();
+</script>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>fetch</title>
+</head>
+<body>
+  
+</body>
+<script>
+  fetch('http://localhost:3000/overview/tradeMarketShare', {
+    method: 'post',
+    // mode: 'no-cors',
+    // credentials: 'include',
+  })
+    .then(function(response) {
+      console.log(response);
+      response.json().then((res) => {
+        console.log(res);
+      })
+      console.log(response.json());
+    })
+    .catch(function(error) {
+       console.log("error");
+       console.log(error);
+    });
+</script>
+</html>

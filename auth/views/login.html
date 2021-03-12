@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body></body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script th:inline="javascript">
+
+  // var contextPath = '[(${#httpServletRequest.getContextPath()})]';
+  // var loginPageUrls = '[(${url})]';
+
+  var contextPath = '/';
+  var loginPageUrls = [
+    'http://10.129.1.3:8080'
+  ].join(',');
+
+  function getGraphicCode(type) {
+    axios({
+      url: contextPath+'/login/getGraphicCode',
+      method: "get"
+    }).then(function (response) {
+      window.parent.postMessage({
+        type,
+        response: response.data
+      }, '*');
+    });
+  }
+
+  function graphicCodeLogin(type, data) {
+    const formData = new FormData();
+    formData.append('username', data.userName);
+    formData.append('password', data.password);
+    formData.append('graphic_code', data.validCode);
+
+    axios({
+      url: contextPath+'/login/user',
+      method: 'post',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function(response) {
+      window.parent.postMessage({
+        type,
+        response: response.data
+      }, '*');
+    })
+  }
+
+  function qrCodeLogin(type, data) {
+    const formData = new FormData();
+    formData.append('qrCode', data.qrCode);
+    axios({
+      url: contextPath+'/login/qrCode',
+      method: 'post',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function(response) {
+      window.parent.postMessage({
+        type,
+        response: response.data
+      }, '*');
+    })
+  }
+
+  window.addEventListener("message", function(event) {
+    if (!loginPageUrls.split(',').includes(event.origin)) {
+      console.log(event);
+      return;
+    }
+
+    if (event.data.type == 'GET_GRAPHIC_CODE') {
+      getGraphicCode(event.data.type);
+    }
+
+    if (event.data.type == 'GRAPHIC_CODE_LOGIN') {
+      graphicCodeLogin(event.data.type, event.data.data);
+    }
+
+    if (event.data.type == 'QR_CODE_LOGIN') {
+      qrCodeLogin(event.data.type, event.data.data);
+    }
+  }, false);
+</script>
+</html>

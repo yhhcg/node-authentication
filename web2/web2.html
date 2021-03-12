@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>web2</title>
+</head>
+<body>
+  <div id="app">web2页面</div>
+</body>
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  window.onload = function() {
+    axios.get('http://10.129.1.55:8021/order/getById').then(function (response) {
+      document.getElementById('app').innerHTML = JSON.stringify(response.data)
+    });
+  }
+</script> -->
+<script>
+  window.onload = function() {
+    const code = new URLSearchParams(window.location.search).get('code');
+    if (code) {
+      window.localStorage.setItem('code', code);
+    }
+
+    if (!window.localStorage.getItem('code')) {
+      window.location.href = `http://10.129.1.3:3001/login/oauth/authorize?redirect_uri=${window.location.href}&origin=http://10.129.1.3:18111/login.html`
+    }
+  }
+</script>
+</html>

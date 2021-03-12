@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+  <title>一二三三全球供应链平台 1233 Supplier Platform</title>
+</head>
+<body>
+  <input id="username" type="text">
+  <input id="password" type="text">
+  <button id="login">登录</button>
+</body>
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+</script>
+<script>
+  window.onload = function() {
+    const iframeTag = document.createElement('iframe');
+    iframeTag.src = "http://10.129.1.3:3001";
+    iframeTag.style = "display: none";
+    iframeTag.onload = function(event) {
+      $.ajax({
+        url: 'http://10.129.1.3:3002/pic.ajax'
+      })
+
+      $(iframeTag).append('<form action="http://10.129.1.3:3002/login.ajax">'+
+        '<input type="text" name="username" value="'+ $('#username').val() +'">'+
+        '<input type="text" name="password" value="'+ $('#password').val() +'">'+
+        '<input type="text" name="redirect_uri" value="'+ new URLSearchParams(window.location.search).get('redirect_uri') +'">'+
+        '<button id="submit" type="submit"></button>'+
+      '</form>');
+
+      // $('#submit').click();
+
+      // axios.get('http://10.129.1.3:3000').then(function (response) {
+      //   document.getElementById('app').innerHTML = JSON.stringify(response.data)
+      // });
+    };
+    document.getElementsByTagName('body')[0].appendChild(iframeTag);
+    $("#login").click(function(){
+      // const iframeTag = document.createElement('iframe');
+      // iframeTag.src = "http://10.129.1.3:3001";
+      // iframeTag.style = "display: none";
+      // iframeTag.onload = function(event) {
+      //   $.ajax({
+      //     url: 'http://10.129.1.3:3001/pic.ajax'
+      //   })
+
+      //   $(iframeTag).append('<form action="http://10.129.1.3:3001/login.ajax">'+
+      //     '<input type="text" name="username" value="'+ $('#username').val() +'">'+
+      //     '<input type="text" name="password" value="'+ $('#password').val() +'">'+
+      //     '<input type="text" name="redirect_uri" value="'+ new URLSearchParams(window.location.search).get('redirect_uri') +'">'+
+      //     '<button id="submit" type="submit"></button>'+
+      //   '</form>');
+
+        $('#submit').click();
+
+        // axios.get('http://10.129.1.3:3000').then(function (response) {
+        //   document.getElementById('app').innerHTML = JSON.stringify(response.data)
+        // });
+      // };
+      // document.getElementsByTagName('body')[0].appendChild(iframeTag);
+    });
+  }
+</script>
+</html>
