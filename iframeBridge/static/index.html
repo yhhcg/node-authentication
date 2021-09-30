@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iframeEvent</title>
+  <style>
+    iframe {
+      width:100vw;
+      height:100vh;
+      border: 0px;
+    }
+  </style>
+</head>
+<body>
+  <iframe
+    id="uc"
+    src="http://uc-component.debug.web.nd/?sdp-app-id=36d6a1a3-b839-4bbb-8ce8-ff0185e5ffc3&type=web#/personAccount/delete"
+    frameborder="0"
+    onload="load()"
+    beforeunload="beforeunload()"
+  ></iframe>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+  require.config({
+    paths: {
+      "ucUtil": "./UC-UTIL"
+    },
+    waitSeconds: 40
+  });
+</script>
+<script>
+  var iframeBridge
+
+  function load() { 
+    var iframe = document.getElementById("uc");
+
+    require(["ucUtil"],
+      function (ucUtil) {
+        iframeBridge && iframeBridge.destory()
+        // 创建通信
+        iframeBridge = new ucUtil.CreateIframeBridge(
+          iframe,
+          {
+            initMessage: {
+              customizeEvents: [
+                'UC_PERSONACCOUNT_UNBIND_SUCCESS',
+                'UC_PERSONACCOUNT_BIND_SUCCESS',
+                'UC_MOBILE_UPDATE_SUCCESS',
+                'UC_MOBILE_BIND_SUCCESS',
+                'UC_PASSWORD_MODIFY_SUCCESS',
+                'UC_PERSONACCOUNT_DELETE_SUCCESS',
+                'UC_PERSONACCOUNT_DELETE_CANCEL',
+                'UC_PERSONACCOUNT_DELETE_UNBIND_CANCEL'
+              ]
+            },
+            targetOrigin: 'http://uc-component.debug.web.nd' // 指定接收消息的窗口
+          },
+          (event) => {
+            if (event.origin === 'http://uc-component.debug.web.nd' && (event.data.name || '').includes('UC')) {
+              console.log(event.data.name)
+            }
+          }
+        )
+
+        iframeBridge.create()
+      }
+    );
+    
+  }
+
+  function beforeunload () {
+    iframeBridge.destory()
+  }
+</script>
+</html>

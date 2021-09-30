@@ -2,11 +2,10 @@
 var express = require('express');
 var proxy = require('http-proxy-middleware');
 
-
-
+express.static.mime.types['wasm'] = 'application/wasm';
 // mount `exampleProxy` in web server
 var app = express();
-app.use(express.static('login'));
+app.use(express.static('..'));
 
 // // 请求转发
 // //proxy middleware options
