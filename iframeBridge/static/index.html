@@ -26,22 +26,22 @@
 <script type="text/javascript">
   require.config({
     paths: {
-      "ucUtil": "./UTIL"
+      "iframeBridge": "../lib/index"
     },
     waitSeconds: 40
   });
 </script>
 <script>
-  var iframeBridge
+  var iframeBridgeInstance
 
   function load() { 
     var iframe = document.getElementById("uc");
 
-    require(["ucUtil"],
-      function (ucUtil) {
-        iframeBridge && iframeBridge.destory()
+    require(["iframeBridge"],
+      function (iframeBridge) {
+        iframeBridgeInstance && iframeBridgeInstance.destory()
         // 创建通信
-        iframeBridge = new ucUtil.CreateIframeBridge(
+        iframeBridgeInstance = new iframeBridge.CreateIframeBridge(
           iframe,
           {
             initMessage: {
@@ -61,14 +61,14 @@
           }
         )
 
-        iframeBridge.create()
+        iframeBridgeInstance.create()
       }
     );
     
   }
 
   function beforeunload () {
-    iframeBridge.destory()
+    iframeBridgeInstance.destory()
   }
 </script>
 </html>

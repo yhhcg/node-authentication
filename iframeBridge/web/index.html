@@ -9,11 +9,11 @@
 <body>
   <button onclick="clickMe()">点我</button>
 </body>
-<script type="module" src="../static/UTIL.js"></script>
+<script type="module" src="../lib/index.js"></script>
 <script>
   var iframeCustomizeEvents
   window.onload = function() {
-    const iframeEvents = new window.ucUtil.IframeBridgeManager({
+    const iframeEvents = new window.iframeBridge.IframeBridgeManager({
       customizeEventList: [
         'CLICK_SUCCESS',
       ]
@@ -25,7 +25,11 @@
   }
 
   function clickMe() {
-    iframeCustomizeEvents && iframeCustomizeEvents.CLICK_SUCCESS()
+    if (iframeCustomizeEvents.CLICK_SUCCESS) {
+      iframeCustomizeEvents.CLICK_SUCCESS()
+    } else {
+      alert('not iframe bridge')
+    }
   }
 </script>
 <script>
