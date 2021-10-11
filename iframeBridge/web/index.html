@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iframeBridge-demo</title>
+</head>
+<body>
+  <button onclick="clickMe()">点我</button>
+</body>
+<script type="module" src="../static/UTIL.js"></script>
+<script>
+  var iframeCustomizeEvents
+  window.onload = function() {
+    const iframeEvents = new window.ucUtil.IframeBridgeManager({
+      customizeEventList: [
+        'CLICK_SUCCESS',
+      ]
+    })
+    iframeEvents.getIframeCustomizeEvents().then((args) => {
+      console.log(args)
+      iframeCustomizeEvents = args
+    })
+  }
+
+  function clickMe() {
+    iframeCustomizeEvents && iframeCustomizeEvents.CLICK_SUCCESS()
+  }
+</script>
+<script>
+  
+</script>
+</html>

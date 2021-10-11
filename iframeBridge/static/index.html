@@ -16,7 +16,7 @@
 <body>
   <iframe
     id="uc"
-    src="http://uc-component.debug.web.nd/?sdp-app-id=36d6a1a3-b839-4bbb-8ce8-ff0185e5ffc3&type=web#/personAccount/delete"
+    src="http://localhost:3001/web/index.html"
     frameborder="0"
     onload="load()"
     beforeunload="beforeunload()"
@@ -26,7 +26,7 @@
 <script type="text/javascript">
   require.config({
     paths: {
-      "ucUtil": "./UC-UTIL"
+      "ucUtil": "./UTIL"
     },
     waitSeconds: 40
   });
@@ -46,21 +46,17 @@
           {
             initMessage: {
               customizeEvents: [
-                'UC_PERSONACCOUNT_UNBIND_SUCCESS',
-                'UC_PERSONACCOUNT_BIND_SUCCESS',
-                'UC_MOBILE_UPDATE_SUCCESS',
-                'UC_MOBILE_BIND_SUCCESS',
-                'UC_PASSWORD_MODIFY_SUCCESS',
-                'UC_PERSONACCOUNT_DELETE_SUCCESS',
-                'UC_PERSONACCOUNT_DELETE_CANCEL',
-                'UC_PERSONACCOUNT_DELETE_UNBIND_CANCEL'
+                'CLICK_SUCCESS'
               ]
             },
-            targetOrigin: 'http://uc-component.debug.web.nd' // 指定接收消息的窗口
+            targetOrigin: 'http://localhost:3001' // 指定接收消息的窗口
           },
           (event) => {
-            if (event.origin === 'http://uc-component.debug.web.nd' && (event.data.name || '').includes('UC')) {
+            if (event.origin === 'http://localhost:3001' && (event.data.name || '').includes('UC')) {
               console.log(event.data.name)
+              if (event.data.name === 'CLICK_SUCCESS') {
+                alert('点我！')
+              }
             }
           }
         )
